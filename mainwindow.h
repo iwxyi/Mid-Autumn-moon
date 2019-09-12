@@ -9,8 +9,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow() : QMainWindow(nullptr)
     {
-        this->setWindowTitle(tr("中秋快乐~"));
-        this->setMinimumSize(234, 234);
+        setWindowTitle("中秋快乐~");
+        setMinimumSize(234, 234);
 
         // 每20毫秒重新绘制一次界面
         QTimer* timer = new QTimer(this);
@@ -21,18 +21,18 @@ public:
 protected:
     void paintEvent(QPaintEvent*) override
     {
-        // 裁剪区域相对于月亮的偏移
+        // 挡住区域相对于月亮的偏移循环
         static int pos = -threshold;
-        if (++pos > threshold) // 移动位置，右边界时回到开始
+        if (++pos > threshold) // 右边界时回到左边界
             pos = -threshold;
 
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing, true); // 抗锯齿
 
-        // 画黑色背景
+        // 画黑色夜空背景
         painter.fillRect(QRect(0,0,width(),height()), QBrush(QColor(5,17,33)));
 
-        // 原来的完整月亮
+        // 完整月亮
         QPainterPath moon_path;
         moon_path.addEllipse(width()/2-radius/2,   height()/2-radius/2, radius, radius);
 
@@ -46,6 +46,6 @@ protected:
     }
 
 private:
-    const int radius = 100;    // 月亮半径
-    const int threshold = 110; // 一个周期后停顿一下
+    const int radius    = 100; // 月亮半径
+    const int threshold = 110; // 一个周期后停顿一下，显示圆滚滚的月亮
 };
